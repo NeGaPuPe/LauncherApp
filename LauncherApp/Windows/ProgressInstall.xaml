@@ -1,0 +1,15 @@
+﻿<Window x:Class="LauncherApp.Windows.ProgressInstall"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LauncherApp.Windows"
+        mc:Ignorable="d"
+        Title="Прогресс установки приложения" Height="75" Width="200" WindowStyle="None" Background="Blue" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Foreground="PeachPuff" Text="Прогресс установки:" Margin="0 0 0 5" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+            <ProgressBar x:Name="ProgressDownload" Width="150" Height="15"/>
+        </StackPanel>
+    </Grid>
+</Window>
