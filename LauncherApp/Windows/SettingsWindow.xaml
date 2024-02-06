@@ -5,25 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LauncherApp.Windows"
         mc:Ignorable="d"
-        Title="Настройки" Height="250" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="Blue" WindowStyle="None" Loaded="Window_Loaded">
+        Title="Настройки" Height="250" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="White" WindowStyle="None" Loaded="Window_Loaded">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Сведения о ПК" HorizontalAlignment="Center" FontSize="20" Foreground="PeachPuff" VerticalAlignment="Top" Margin="0 5"/>
+            <TextBlock Text="Сведения о ПК" HorizontalAlignment="Center" FontSize="20"  VerticalAlignment="Top" Margin="0 5"/>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Name="MemoryVolume" Foreground="PeachPuff" Text="Объём оперативной памяти: "/>
-                <TextBlock Name="CPUName" Foreground="PeachPuff" Text="Процессор: " Margin="0 2"/>
-                <TextBlock Name="ManufacturerCPU" Foreground="PeachPuff" Text="Производитель процессора: "/>
-                <TextBlock Name="GPUName" Foreground="PeachPuff" Text="Видеокарта: " Margin="0 2"/>
-                <TextBlock Name="VersioGPUDriver" Foreground="PeachPuff" Text="Версия драйвера видеокарты: "/>
+                <TextBlock Name="MemoryVolume"  Text="Объём оперативной памяти: "/>
+                <TextBlock Name="CPUName"  Text="Процессор: " Margin="0 2"/>
+                <TextBlock Name="ManufacturerCPU" Text="Производитель процессора: "/>
+                <TextBlock Name="GPUName" Text="Видеокарта: " Margin="0 2"/>
+                <TextBlock Name="VersioGPUDriver" Text="Версия драйвера видеокарты: "/>
             </StackPanel>
-            <TextBlock Text="Проверка обновлений" HorizontalAlignment="Center" FontSize="20" Foreground="PeachPuff" VerticalAlignment="Top" Margin="0 5"/>
-            <CheckBox x:Name="UpdateCheck" Foreground="PeachPuff" Background="SandyBrown" IsChecked="True">
+            <TextBlock Text="Проверка обновлений" HorizontalAlignment="Center" FontSize="20"  VerticalAlignment="Top" Margin="0 5"/>
+            <CheckBox x:Name="UpdateCheck" Background="#279667" IsChecked="True">
                 <TextBlock Text="Отслеживание обновлений приложения"/>
             </CheckBox>
-            <Button x:Name="SaveSettings" Click="SaveSettings_Click" Content="Сохранить" Cursor="Hand" VerticalAlignment="Center" Foreground="PeachPuff" FontSize="15" FontWeight="ExtraLight" Height="35" Margin="0 10" Width="120">
+            <Button x:Name="SaveSettings" Click="SaveSettings_Click" Content="Сохранить" Cursor="Hand" VerticalAlignment="Center" Foreground="White" FontSize="15" FontWeight="Bold" Height="35" Margin="0 10" Width="120">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="4" Background="SandyBrown">
+                        <Border CornerRadius="4" Background="#279667">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>

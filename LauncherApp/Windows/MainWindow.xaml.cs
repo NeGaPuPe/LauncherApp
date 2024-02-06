@@ -26,52 +26,38 @@ namespace LauncherApp
     {
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
+
+          InitializeComponent();
         }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.","Сообщение",MessageBoxButton.OK,MessageBoxImage.Error);
-            }
-}
 
         private void StartApp_Click(object sender, RoutedEventArgs e)
         {
-            try
+            WebClient wc = new WebClient();
+            if (StartApp.Content == "Обновить приложение")
             {
-                WebClient wc = new WebClient();
-                if (StartApp.Content == "Обновить приложение")
-                {
-                    MessageBoxResult result = MessageBox.Show("Версия вашего приложения устарела. Вы можете обновить ваше приложение или отложить обновление. Отложить обновление?", "Сообщение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        Application.Current.Shutdown();
-                        Cmd($@"cd {AppDomain.CurrentDomain.BaseDirectory}\App\PassengerTransportation-master\PassengerTransportationProject\bin\Debug && PassengerTransportationProject.exe");
-                    }
-                    else
-                    {
-                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master", true);
-                        wc.DownloadFile("https://github.com/NeGaPuPe/PassengerTransportation/archive/master.zip", AppDomain.CurrentDomain.BaseDirectory + @"\App\PracticeShop.zip");
-                        var apppath = System.IO.Path.GetFullPath(@"App\PracticeShop.zip");
-                        var apppath1 = System.IO.Path.GetFullPath("App");
-                        ZipFile.ExtractToDirectory(apppath, apppath1);
-                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation.zip");
-                        MessageBox.Show("Приложение успешно обновлено", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
-                        StartApp.Content = "Запустить приложение";
-                    }
-                }
-                else
+                MessageBoxResult result = MessageBox.Show("Версия вашего приложения устарела. Вы можете обновить ваше приложение или отложить обновление. Отложить обновление?", "Сообщение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
                 {
                     Application.Current.Shutdown();
                     Cmd($@"cd {AppDomain.CurrentDomain.BaseDirectory}\App\PassengerTransportation-master\PassengerTransportationProject\bin\Debug && PassengerTransportationProject.exe");
                 }
+                else
+                {
+                    Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master", true);
+                    wc.DownloadFile("https://github.com/NeGaPuPe/PassengerTransportation/archive/master.zip", AppDomain.CurrentDomain.BaseDirectory + @"\App\PracticeShop.zip");
+                    var apppath = System.IO.Path.GetFullPath(@"App\PracticeShop.zip");
+                    var apppath1 = System.IO.Path.GetFullPath("App");
+                    ZipFile.ExtractToDirectory(apppath, apppath1);
+                    File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation.zip");
+                    MessageBox.Show("Приложение успешно обновлено", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                    StartApp.Content = "Запустить приложение";
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
+                Cmd($@"cd {AppDomain.CurrentDomain.BaseDirectory}\App\PassengerTransportation-master\PassengerTransportationProject\bin\Debug && PassengerTransportationProject.exe");
             }
-            
         }
 
         public Process Cmd(string line)
@@ -86,109 +72,73 @@ namespace LauncherApp
 
         private void DownloadApp_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                InstallVersion installVersion = new InstallVersion();
-                installVersion.Show();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            InstallVersion installVersion = new InstallVersion();
+            installVersion.Show();
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App"))
             {
-                if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App"))
-                {
-                    DownloadApp.Visibility = Visibility.Collapsed;
-                    StartApp.Visibility = Visibility.Visible;
+                DownloadApp.Visibility = Visibility.Collapsed;
+                StartApp.Visibility = Visibility.Visible;
 
-                    var a = new HttpClient();
-                    a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
+                var a = new HttpClient();
+                a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
+                {
+                    NoCache = true,
+                };
+                if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master"))
+                {
+                    string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master\PassengerTransportationProject\Resources\Version\Version.txt");
+                    string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/PassengerTransportation/master/PassengerTransportationProject/Resources/Version/Version.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
+                    if (CurrentVersionApp != VersionApp)
                     {
-                        NoCache = true,
-                    };
-                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master"))
-                    {
-                        string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master\PassengerTransportationProject\Resources\Version\VersionApp.txt");
-                        string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/PassengerTransportation/master/PassengerTransportationProject/Resources/Version/VersionApp.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
-                        if (CurrentVersionApp != VersionApp)
+                        if (Properties.Settings.Default.UpdateCheck == false)
                         {
-                            if (Properties.Settings.Default.UpdateCheck == false)
-                            {
-                                StartApp.Content = "Запустить приложение";
-                            }
-                            else
-                            {
-                                StartApp.Content = "Обновить приложение";
-                            }
+                            StartApp.Content = "Запустить приложение";
+                        }
+                        else
+                        {
+                            StartApp.Content = "Обновить приложение";
                         }
                     }
                 }
-                
-                else
-                {
-                    DownloadApp.Visibility = Visibility.Visible;
-                    DeleteApp.Visibility = Visibility.Collapsed;
-                    StartApp.Visibility = Visibility.Collapsed;
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Отсутствует интернет.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+            else
+            {
+                DownloadApp.Visibility = Visibility.Visible;
+                DeleteApp.Visibility = Visibility.Collapsed;
+                StartApp.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void DeleteApp_Click(object sender, RoutedEventArgs e)
         {
-            try
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите удалить приложение?", "Сообщение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBoxResult result = MessageBox.Show("Вы действительно хотите удалить приложение?", "Сообщение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App", true);
-                    Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\Updates", true);
-                    StartApp.Visibility = Visibility.Collapsed;
-                    DownloadApp.Visibility = Visibility.Visible;
-                    DeleteApp.Visibility = Visibility.Collapsed;
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
+                Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App", true);
+                Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\Updates", true);
+                StartApp.Visibility = Visibility.Collapsed;
+                DownloadApp.Visibility = Visibility.Visible;
+                DeleteApp.Visibility = Visibility.Collapsed;
             }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите выйти?", "Сообщение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBoxResult result = MessageBox.Show("Вы действительно хотите выйти?", "Сообщение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
             }
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                SettingsWindow settingsWindow = new SettingsWindow();
-                settingsWindow.Show();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Show();
         }
     }
 }

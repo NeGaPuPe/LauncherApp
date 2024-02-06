@@ -20,44 +20,23 @@ namespace LauncherApp.Windows
     {
         public ProgressInstall()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            InitializeComponent();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            try
-            {
-                BackgroundWorker worker = new BackgroundWorker();
-                worker.WorkerReportsProgress = true;
-                worker.DoWork += worker_Dowork;
-                worker.ProgressChanged += worker_ProgressChanged;
-                worker.RunWorkerAsync();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_Dowork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerAsync();
         }
         void worker_Dowork(object sender, DoWorkEventArgs e)
         {
-            try
+            for (int i = 0; i <= 100; i++)
             {
-                for (int i = 0; i <= 100; i++)
-                {
-                    (sender as BackgroundWorker).ReportProgress(i);
-                    Thread.Sleep(17);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
+                (sender as BackgroundWorker).ReportProgress(i);
+                Thread.Sleep(17);
             }
         }
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)

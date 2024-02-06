@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LauncherApp.Windows"
         mc:Ignorable="d"
-        Title="Прогресс установки приложения" Height="75" Width="200" WindowStyle="None" Background="Blue" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen">
+        Title="Прогресс установки приложения" Height="75" Width="200" WindowStyle="None" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Foreground="PeachPuff" Text="Прогресс установки:" Margin="0 0 0 5" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12"/>
-            <ProgressBar x:Name="ProgressDownload" Width="150" Height="15"/>
+            <TextBlock Foreground="Black" Text="Прогресс установки:" Margin="0 0 0 5" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+            <ProgressBar BorderThickness="0.001" Foreground="IndianRed" x:Name="ProgressDownload" Width="150" Height="15">
+                <ProgressBar.Effect>
+                    <DropShadowEffect ShadowDepth="0" Color="LawnGreen" Opacity="0.5" BlurRadius="20"/>
+                </ProgressBar.Effect>
+            </ProgressBar>
         </StackPanel>
     </Grid>
 </Window>

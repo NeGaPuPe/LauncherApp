@@ -21,82 +21,68 @@ namespace LauncherApp.Windows
     {
         public SettingsWindow()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            InitializeComponent();
         }
 
         private async void SaveSettings_Click(object sender, RoutedEventArgs e)
         {
-            try
+            MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (UpdateCheck.IsChecked == false)
             {
-                MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-                if (UpdateCheck.IsChecked == false)
+                Properties.Settings.Default.UpdateCheck = false;
+                Properties.Settings.Default.Save();
+                if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master"))
                 {
-                    Properties.Settings.Default.UpdateCheck = false;
-                    Properties.Settings.Default.Save();
-                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master"))
+                    var a = new HttpClient();
+                    a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
                     {
-                        var a = new HttpClient();
-                        a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
+                        NoCache = true,
+                    };
+                    string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master\PracticeShopProject\Resources\Version\VersionApp.txt");
+                    string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/LearningPractice/master/PracticeShopProject/Resources/Version/VersionApp.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
+                    if (CurrentVersionApp != VersionApp)
+                    {
+                        if (Properties.Settings.Default.UpdateCheck == false)
                         {
-                            NoCache = true,
-                        };
-                        string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master\PracticeShopProject\Resources\Version\VersionApp.txt");
-                        string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/LearningPractice/master/PracticeShopProject/Resources/Version/VersionApp.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
-                        if (CurrentVersionApp != VersionApp)
+                            mainWindow.StartApp.Content = "Запустить приложение";
+                        }
+                        else
                         {
-                            if (Properties.Settings.Default.UpdateCheck == false)
-                            {
-                                mainWindow.StartApp.Content = "Запустить приложение";
-                            }
-                            else
-                            {
-                                mainWindow.StartApp.Content = "Обновить приложение";
-                            }
+                            mainWindow.StartApp.Content = "Обновить приложение";
                         }
                     }
                 }
-                else
+            }
+            else
+            {
+                Properties.Settings.Default.UpdateCheck = true;
+                Properties.Settings.Default.Save();
+                if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master"))
                 {
-                    Properties.Settings.Default.UpdateCheck = true;
-                    Properties.Settings.Default.Save();
-                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master"))
+                    var a = new HttpClient();
+                    a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
                     {
-                        var a = new HttpClient();
-                        a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
+                        NoCache = true,
+                    };
+                    string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master\PracticeShopProject\Resources\Version\VersionApp.txt");
+                    string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/LearningPractice/master/PracticeShopProject/Resources/Version/VersionApp.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
+                    if (CurrentVersionApp != VersionApp)
+                    {
+                        if (Properties.Settings.Default.UpdateCheck == false)
                         {
-                            NoCache = true,
-                        };
-                        string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master\PracticeShopProject\Resources\Version\VersionApp.txt");
-                        string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/LearningPractice/master/PracticeShopProject/Resources/Version/VersionApp.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
-                        if (CurrentVersionApp != VersionApp)
+                            mainWindow.StartApp.Content = "Запустить приложение";
+                        }
+                        else
                         {
-                            if (Properties.Settings.Default.UpdateCheck == false)
-                            {
-                                mainWindow.StartApp.Content = "Запустить приложение";
-                            }
-                            else
-                            {
-                                mainWindow.StartApp.Content = "Обновить приложение";
-                            }
+                            mainWindow.StartApp.Content = "Обновить приложение";
                         }
                     }
                 }
-                Dispatcher.Invoke(() =>
-                {
-                    Close();
-                });
             }
-            catch
+            Dispatcher.Invoke(() =>
             {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                Close();
+            });
         }
 
         static List<string> GetHardwareInfo(string WIN32_Class, string ClassItemField)
@@ -119,42 +105,27 @@ namespace LauncherApp.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            if (Properties.Settings.Default.UpdateCheck == false)
             {
-                if (Properties.Settings.Default.UpdateCheck == false)
-                {
-                    UpdateCheck.IsChecked = false;
-                }
-                else
-                {
-                    UpdateCheck.IsChecked = true;
-                }
-                MemoryVolume.Text += GetHardwareInfo("Win32_PhysicalMemory", "Capacity").First();
-                CPUName.Text += GetHardwareInfo("Win32_Processor", "Name").First();
-                ManufacturerCPU.Text += GetHardwareInfo("Win32_Processor", "Manufacturer").First();
-                GPUName.Text += GetHardwareInfo("Win32_VideoController", "Name").First();
-                VersioGPUDriver.Text += GetHardwareInfo("Win32_VideoController", "DriverVersion").First();
+                UpdateCheck.IsChecked = false;
             }
-            catch
+            else
             {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
+                UpdateCheck.IsChecked = true;
             }
-            
+            MemoryVolume.Text += GetHardwareInfo("Win32_PhysicalMemory", "Capacity").First();
+            CPUName.Text += GetHardwareInfo("Win32_Processor", "Name").First();
+            ManufacturerCPU.Text += GetHardwareInfo("Win32_Processor", "Manufacturer").First();
+            GPUName.Text += GetHardwareInfo("Win32_VideoController", "Name").First();
+            VersioGPUDriver.Text += GetHardwareInfo("Win32_VideoController", "DriverVersion").First();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            Dispatcher.Invoke(() =>
             {
-                Dispatcher.Invoke(() =>
-                {
-                    Close();
-                });
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                Close();
+            });
         }
     }
 }

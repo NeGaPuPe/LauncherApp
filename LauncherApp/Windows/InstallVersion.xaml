@@ -294,10 +294,10 @@
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" Background="SandyBrown">
-            <Image Margin="10 0" Source="/Resources/Icons/Launcher.ico" Width="40" HorizontalAlignment="Left"/>
-            <TextBlock Foreground="PeachPuff" Text="Установка приложения PracticeShop" VerticalAlignment="Center" FontWeight="Bold" Margin="5 0 50 0"/>
-            <Button Cursor="Hand" x:Name="CloseButton" Background="Transparent" BorderBrush="Transparent" Height="20" Width="20"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="CloseButton_Click">
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" Height="40" Background="#279667">
+            <Image Margin="10 0" Source="/Resources/Images/Load.png" Width="25" Height="25" HorizontalAlignment="Left"/>
+            <TextBlock Foreground="White" Text="Установка приложения" VerticalAlignment="Center" FontWeight="Bold" Margin="5 0 50 0"/>
+            <Button Cursor="Hand" x:Name="CloseButton" Background="Transparent" BorderBrush="Transparent" Height="20" Width="20"  VerticalAlignment="Top" Margin="92 0" HorizontalAlignment="Right" Click="CloseButton_Click">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="LightBlue" />
@@ -320,12 +320,8 @@
                 <Image Source="/Resources/Images/close.png"/>
             </Button>
         </StackPanel>
-        <StackPanel Grid.Row="1" Background="Blue">
-
-            <CheckBox Name="ArchiveCheckbox" Background="SandyBrown" Foreground="PeachPuff" HorizontalAlignment="Center" Margin="0 40 0 0">
-                <TextBlock Text="Создать архив обновления?"/>
-            </CheckBox>
-            <Button Cursor="Hand" Content="Установить" Background="SandyBrown" Foreground="PeachPuff" Name="DownloadVersion" Click="DownloadVersion_Click" Width="100" Height="25" Margin="0 10">
+        <StackPanel Grid.Row="1">
+            <Button Cursor="Hand" Content="Установить" Background="#279667" Foreground="White" FontWeight="Bold" Name="DownloadVersion" Click="DownloadVersion_Click" Width="100" Height="30" Margin="0 45 0 10">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="LightBlue" />
@@ -346,6 +342,9 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <CheckBox Name="ArchiveCheckbox" Background="#279667" HorizontalAlignment="Center">
+                <TextBlock Text="Создать архив обновления?"/>
+            </CheckBox>
         </StackPanel>
     </Grid>
 </Window>

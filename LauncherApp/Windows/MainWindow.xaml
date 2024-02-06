@@ -8,7 +8,7 @@
         Title="Главное окно" Height="600" Width="1000" MaxHeight="600" Loaded="Window_Loaded" MaxWidth="1000" WindowStyle="None" Name="MainWin" Background="White" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <StackPanel>
-            <Image Source="/Resources/Images/BackgroundApp.jpg" Height="1008"/>
+            <Image Source="/Resources/Images/BackgroundAppImage.png" Height="670" Margin="0 -10 0 0"/>
         </StackPanel>
         <Button Cursor="Hand" Margin="10" x:Name="CloseButton" Background="Transparent" BorderBrush="Transparent" Height="30" Width="30"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="CloseButton_Click">
             <Button.Style>
