@@ -69,9 +69,12 @@ namespace LauncherApp.Windows
                 {
                     NoCache = true,
                 };
+                string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master\PassengerTransportationProject\Resources\Version\Version.txt");
+                mainWindow.VersionAppTB.Text = "Актуальная версия приложения: " + CurrentVersionApp;
                 mainWindow.StartApp.Visibility = Visibility.Visible;
                 mainWindow.DeleteApp.Visibility = Visibility.Visible;
                 mainWindow.DownloadApp.Visibility = Visibility.Collapsed;
+                mainWindow.VersionAppTB.Visibility = Visibility.Visible;
                 Dispatcher.Invoke(() =>
                 {
                     Close();

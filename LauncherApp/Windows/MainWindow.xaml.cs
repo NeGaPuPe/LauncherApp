@@ -50,6 +50,7 @@ namespace LauncherApp
                     ZipFile.ExtractToDirectory(apppath, apppath1);
                     File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation.zip");
                     MessageBox.Show("Приложение успешно обновлено", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MainWin.Cursor = Cursors.Wait;
                     StartApp.Content = "Запустить приложение";
                 }
             }
@@ -79,9 +80,10 @@ namespace LauncherApp
         {
             if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\App"))
             {
+                Mouse.OverrideCursor = null;
                 DownloadApp.Visibility = Visibility.Collapsed;
                 StartApp.Visibility = Visibility.Visible;
-
+                VersionAppTB.Visibility = Visibility.Visible;
                 var a = new HttpClient();
                 a.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
                 {
@@ -104,15 +106,13 @@ namespace LauncherApp
                     if (Properties.Settings.Default.UpdateCheck == false)
                     {
                         StartApp.Content = "Запустить приложение";
+                        VersionAppTB.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         StartApp.Content = "Обновить приложение";
+                        VersionAppTB.Visibility = Visibility.Visible;
                     }
-                }
-                else
-                {
-                    VersionAppTB.Visibility = Visibility.Hidden;
                 }
             }
 
@@ -121,6 +121,7 @@ namespace LauncherApp
                 DownloadApp.Visibility = Visibility.Visible;
                 DeleteApp.Visibility = Visibility.Collapsed;
                 StartApp.Visibility = Visibility.Collapsed;
+                VersionAppTB.Visibility = Visibility.Hidden;
             }
         }
 
@@ -134,6 +135,7 @@ namespace LauncherApp
                 StartApp.Visibility = Visibility.Collapsed;
                 DownloadApp.Visibility = Visibility.Visible;
                 DeleteApp.Visibility = Visibility.Collapsed;
+                VersionAppTB.Visibility = Visibility.Hidden;
             }
         }
 

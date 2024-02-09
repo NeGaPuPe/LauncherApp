@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LauncherApp.Windows"
         mc:Ignorable="d"
-        Title="Прогресс установки приложения" Height="75" Width="200" WindowStyle="None" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen">
+        Title="Прогресс установки приложения" Height="75" Width="200" WindowStyle="None" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" Cursor="Wait">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Foreground="Black" Text="Прогресс установки:" Margin="0 0 0 5" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12"/>
