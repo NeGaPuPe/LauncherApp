@@ -12,19 +12,19 @@ namespace LauncherApp
 {
     public partial class App : Application
     {
-        //public App()
-        //{
-        //    this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
-        //}
+        public App()
+        {
+            this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+        }
 
-        //void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-        //{
-        //    Exception error = e.Exception;
-        //    string ErrorDescription = error.ToString();
-        //    string ErrorMessage = error.Message;
+        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            Exception error = e.Exception;
+            string ErrorDescription = error.ToString();
+            string ErrorMessage = error.Message;
 
-        //    MessageBox.Show($"Возникла критическая ошибка. Описание ошибки: {ErrorMessage}","Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
-        //    Application.Current.Shutdown();
-        //}
+            MessageBox.Show($"Возникла критическая ошибка. Описание ошибки: {ErrorMessage}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Shutdown();
+        }
     }
 }

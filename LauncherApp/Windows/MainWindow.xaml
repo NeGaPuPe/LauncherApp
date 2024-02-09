@@ -85,5 +85,6 @@
                 </Button.Template>
             </Button>
         </StackPanel>
+        <TextBlock Text="Актуальная версия приложения: " Name="VersionAppTB" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

@@ -43,9 +43,9 @@ namespace LauncherApp
                 }
                 else
                 {
-                    Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\LearningPractice-master", true);
-                    wc.DownloadFile("https://github.com/NeGaPuPe/PassengerTransportation/archive/master.zip", AppDomain.CurrentDomain.BaseDirectory + @"\App\PracticeShop.zip");
-                    var apppath = System.IO.Path.GetFullPath(@"App\PracticeShop.zip");
+                    Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master", true);
+                    wc.DownloadFile("https://github.com/NeGaPuPe/PassengerTransportation/archive/master.zip", AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation.zip");
+                    var apppath = System.IO.Path.GetFullPath(@"App\PassengerTransportation.zip");
                     var apppath1 = System.IO.Path.GetFullPath("App");
                     ZipFile.ExtractToDirectory(apppath, apppath1);
                     File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation.zip");
@@ -91,17 +91,28 @@ namespace LauncherApp
                 {
                     string CurrentVersionApp = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\App\PassengerTransportation-master\PassengerTransportationProject\Resources\Version\Version.txt");
                     string VersionApp = (await (await a.GetAsync("https://raw.githubusercontent.com/NeGaPuPe/PassengerTransportation/master/PassengerTransportationProject/Resources/Version/Version.txt?time=" + DateTime.Now)).Content.ReadAsStringAsync()).Replace("\n", "");
+                    VersionAppTB.Visibility = Visibility.Visible;
+                    VersionAppTB.Text += CurrentVersionApp;
                     if (CurrentVersionApp != VersionApp)
                     {
-                        if (Properties.Settings.Default.UpdateCheck == false)
-                        {
-                            StartApp.Content = "Запустить приложение";
-                        }
-                        else
-                        {
-                            StartApp.Content = "Обновить приложение";
-                        }
+                        Properties.Settings.Default.UpdateCheck = true;
                     }
+                    else
+                    {
+                        Properties.Settings.Default.UpdateCheck = false;
+                    }
+                    if (Properties.Settings.Default.UpdateCheck == false)
+                    {
+                        StartApp.Content = "Запустить приложение";
+                    }
+                    else
+                    {
+                        StartApp.Content = "Обновить приложение";
+                    }
+                }
+                else
+                {
+                    VersionAppTB.Visibility = Visibility.Hidden;
                 }
             }
 
